@@ -5,6 +5,7 @@ namespace App\PubSub;
 use App\PubSub\Channels\BaseChannel;
 use App\PubSub\Channels\Channel;
 use Predis\Client;
+use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 
 class Subscriber
@@ -20,56 +21,20 @@ class Subscriber
 
     public function addChannel(Channel $channel): void
     {
+        // ReactPHP Event-Loop erstellen
+        $loop = Loop::get();
+        $channel->setLoop($loop);
+        $channel->setRedisConfig($this->redisParameter);
         $this->channels[$channel->getName()] = $channel;
     }
 
-    public function run(LoopInterface $loop): void
+    public function run(): void
     {
         // Starte alle Kanäle
         foreach ($this->channels as $channel) {
-            $loop->addTimer(0, function () use ($loop, $channel) {
-                BaseChannel::println("Channel: " . $channel->getName());
-                $this->startPubSubLoop($loop, $channel);
-            });
+            $channel->run();
         }
     }
 
-    private function startPubSubLoop(LoopInterface $loop, Channel $channel): void
-    {
-        if (!$this->isRunning) {
-            BaseChannel::println("Channel: {$channel->getName()} is running - cancel");
-            return;
-        }
-
-        echo "Starting non-blocking Pub/Sub loop for channel: '{$channel->getName()}'\n";
-
-        $pubsubClient = new Client($this->redisParameter); // Separate Verbindung erstellen
-        $pubsub = $pubsubClient->pubSubLoop();
-        $pubsub->subscribe($channel::getName());
-
-        $loop->addPeriodicTimer(0.5, function () use ($pubsub, $channel, $loop) {
-            BaseChannel::println("Periodic Timer run: '{$channel->getName()}'");
-
-            if (!$this->isRunning || !$channel->isRunning()) {
-                BaseChannel::println("Stopping Pub/Sub loop for channel: '{$channel->getName()}'");
-                $pubsub->unsubscribe();
-                return;
-            }
-
-            try {
-                // Hole die nächste Nachricht aus der Pub/Sub-Schleife
-                $message = $pubsub->current();
-                if ($message && $message->channel === $channel::getName()) {
-                    $channel->execute($message);
-                    $pubsub->next();
-                } else {
-                    BaseChannel::println("No consumer found for channel: '{$channel->getName()}'");
-                }
-            } catch (\Exception $e) {
-                BaseChannel::println("Error on channel '{$channel->getName()}': {$e->getMessage()} - restart channel");
-                $this->startPubSubLoop($loop, $channel);
-            }
-        });
-    }
 
 }

@@ -3,21 +3,21 @@
 namespace App\PubSub\Channels;
 
 use App\PubSub\Channels\Channel;
+use stdClass;
 
 class CountDownChannel extends BaseChannel implements Channel
 {
 
     public static function getName(): string
     {
-        return 'countdown';
+        return 'consumer:countdown';
     }
 
-    protected function processMessage($message): void
+    protected function processMessage(stdClass $message): void
     {
-        $payload = json_decode($message->payload, true);
         $this->echo("Channel '{$this->getName()}' process the Message");
-        if(!empty($payload['countDown'])) {
-            $array = range(1, $payload['countDown']);
+        if(!empty($message->countDown)) {
+            $array = range(1, $message->countDown);
             foreach ($array as $index) {
                 if (!$this->isRunning()) {
                     $this->echo("Channel '{$this->getName()}' stopped during execution.");

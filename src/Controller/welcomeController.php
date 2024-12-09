@@ -22,7 +22,10 @@ class welcomeController extends AbstractController
         $redisClient = new Client();
         $pub = new Publisher($redisClient);
         //$pub->publish("system", "controller start the action");
-        $pub->publish(CountDownChannel::getName(), ['message' => "start the countdown at " . date_create()->format("H:i:s"), 'countDown' => 5]);
+        $pub->publish(SystemChannel::getName(), [
+            'message' => "start the countdown at " . date_create()->format("H:i:s"),
+            'countDown' => 15
+        ]);
 
         return $this->render('welcome/index.html.twig');
     }

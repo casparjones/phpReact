@@ -37,9 +37,6 @@ class RedisPubSubCommand extends Command
         // Erstellen eines neuen Predis-Client-Objekts
         $redisClient = new Client($redisConfig);
 
-        // ReactPHP Event-Loop erstellen
-        $loop = Loop::get();
-
         // Publisher und Subscriber erstellen
         $subscriber = new Subscriber($redisConfig);
 
@@ -47,11 +44,10 @@ class RedisPubSubCommand extends Command
         $subscriber->addChannel(new CountDownChannel());
         $subscriber->addChannel(new SystemChannel());
 
-        $subscriber->run($loop);
+        $subscriber->run();
 
         // Event-Loop läuft für immer und wartet auf Nachrichten
         $output->writeln('Pub/Sub system is running...');
-        $loop->run();  // Der Event-Loop läuft dauerhaft und wartet auf Nachrichten
 
         return Command::SUCCESS;
     }

@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd917d47-c8a3-4c83-a63e-9e560c88abe4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/PubSub/Channels/BaseChannel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PubSub/Channels/Channel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PubSub/Channels/CountDownChannel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PubSub/Channels/SystemChannel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Command/RedisPubSubCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/RedisPubSubCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/welcomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/welcomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PubSub/Channels/BaseChannel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Channels/BaseChannel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PubSub/Channels/CountDownChannel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Channels/CountDownChannel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PubSub/Channels/SystemChannel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Channels/SystemChannel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PubSub/Publisher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Publisher.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PubSub/Subscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Subscriber.php" afterDir="false" />
     </list>
@@ -123,7 +122,7 @@
       <option name="presentableId" value="Default" />
       <updated>1733743408107</updated>
       <workItem from="1733743409166" duration="3076000" />
-      <workItem from="1733746490570" duration="12071000" />
+      <workItem from="1733746490570" duration="14079000" />
     </task>
     <servers />
   </component>

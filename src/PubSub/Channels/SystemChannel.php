@@ -3,18 +3,19 @@
 namespace App\PubSub\Channels;
 
 use App\PubSub\Channels\Channel;
+use stdClass;
 
 class SystemChannel extends BaseChannel implements Channel
 {
 
     public static function getName(): string
     {
-        return 'system';
+        return 'consumer:system';
     }
 
-    protected function processMessage($message): void
+    protected function processMessage(stdClass $message): void
     {
         $this->echo("Channel '{$this->getName()}' process the Message");
-        var_dump($message);
+        $this->echo("receive message: " . json_encode($message));
     }
 }

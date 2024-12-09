@@ -17,6 +17,8 @@ class Publisher
     public function publish(string $channel, mixed $message): int
     {
         // echo "Publishing message: '$message' to channel '$channel'\n";
-        return $this->client->publish($channel, json_encode($message));
+        $jsonMessage = json_encode($message);
+        // return $this->client->publish($channel, $jsonMessage);
+        return $this->client->lpush($channel, [$jsonMessage]);
     }
 }
