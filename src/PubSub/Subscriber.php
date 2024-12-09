@@ -2,37 +2,74 @@
 
 namespace App\PubSub;
 
+use App\PubSub\Channels\BaseChannel;
+use App\PubSub\Channels\Channel;
 use Predis\Client;
 use React\EventLoop\LoopInterface;
 
 class Subscriber
 {
-    private Client $client;
+    private array $redisParameter = [];
+    private array $channels = [];
+    private bool $isRunning = true;
 
-    public function __construct(Client $client)
+    public function __construct(array $redisConfig)
     {
-        $this->client = $client;
+        $this->redisParameter = $redisConfig;
     }
 
-    public function subscribe(LoopInterface $loop, string $channel): void
+    public function addChannel(Channel $channel): void
     {
-        echo "Subscribing to channel: '$channel'\n";
+        $this->channels[$channel->getName()] = $channel;
+    }
 
-        // Startet die Pub/Sub-Verbindung und lässt den Event-Loop weiterlaufen
-        $loop->addTimer(0, function () use ($channel) {
-            echo "test 1\n"; 
-            // Startet den Pub/Sub-Loop, der Nachrichten empfangen kann
-            $pubsub = $this->client->pubSubLoop();
+    public function run(LoopInterface $loop): void
+    {
+        // Starte alle Kanäle
+        foreach ($this->channels as $channel) {
+            $loop->addTimer(0, function () use ($loop, $channel) {
+                BaseChannel::println("Channel: " . $channel->getName());
+                $this->startPubSubLoop($loop, $channel);
+            });
+        }
+    }
 
+    private function startPubSubLoop(LoopInterface $loop, Channel $channel): void
+    {
+        if (!$this->isRunning) {
+            BaseChannel::println("Channel: {$channel->getName()} is running - cancel");
+            return;
+        }
 
-            $pubsub->subscribe($channel);
-            /* @var stdClass $message */
-            foreach ($pubsub as $message) {
-                var_dump($message);
+        echo "Starting non-blocking Pub/Sub loop for channel: '{$channel->getName()}'\n";
+
+        $pubsubClient = new Client($this->redisParameter); // Separate Verbindung erstellen
+        $pubsub = $pubsubClient->pubSubLoop();
+        $pubsub->subscribe($channel::getName());
+
+        $loop->addPeriodicTimer(0.5, function () use ($pubsub, $channel, $loop) {
+            BaseChannel::println("Periodic Timer run: '{$channel->getName()}'");
+
+            if (!$this->isRunning || !$channel->isRunning()) {
+                BaseChannel::println("Stopping Pub/Sub loop for channel: '{$channel->getName()}'");
+                $pubsub->unsubscribe();
+                return;
+            }
+
+            try {
+                // Hole die nächste Nachricht aus der Pub/Sub-Schleife
+                $message = $pubsub->current();
+                if ($message && $message->channel === $channel::getName()) {
+                    $channel->execute($message);
+                    $pubsub->next();
+                } else {
+                    BaseChannel::println("No consumer found for channel: '{$channel->getName()}'");
+                }
+            } catch (\Exception $e) {
+                BaseChannel::println("Error on channel '{$channel->getName()}': {$e->getMessage()} - restart channel");
+                $this->startPubSubLoop($loop, $channel);
             }
         });
-
-        // Der Event-Loop bleibt weiterhin aktiv und blockiert nicht
-        // pubSubLoop wird in einem anderen Timer ausgeführt und blockiert nicht den Haupt-Event-Loop
     }
+
 }

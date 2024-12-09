@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\PubSub\Channels\CountDownChannel;
+use App\PubSub\Channels\SystemChannel;
 use App\PubSub\Publisher;
 use App\PubSub\Subscriber;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +21,8 @@ class welcomeController extends AbstractController
     {
         $redisClient = new Client();
         $pub = new Publisher($redisClient);
-        $pub->publish("news", "controller start the action");
+        //$pub->publish("system", "controller start the action");
+        $pub->publish(CountDownChannel::getName(), ['message' => "start the countdown at " . date_create()->format("H:i:s"), 'countDown' => 5]);
 
         return $this->render('welcome/index.html.twig');
     }

@@ -3,6 +3,7 @@
 namespace App\PubSub;
 
 use Predis\Client;
+use stdClass;
 
 class Publisher
 {
@@ -13,9 +14,9 @@ class Publisher
         $this->client = $client;
     }
 
-    public function publish(string $channel, string $message)
+    public function publish(string $channel, mixed $message): int
     {
         // echo "Publishing message: '$message' to channel '$channel'\n";
-        $this->client->publish($channel, $message);
+        return $this->client->publish($channel, json_encode($message));
     }
 }

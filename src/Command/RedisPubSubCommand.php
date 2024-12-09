@@ -2,10 +2,12 @@
 
 namespace App\Command;
 
+use App\PubSub\Channels\CountDownChannel;
+use App\PubSub\Channels\SystemChannel;
 use App\PubSub\Publisher;
 use App\PubSub\Subscriber;
 use Predis\Client;
-use React\EventLoop\Factory;
+use React\EventLoop\Loop;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,27 +38,16 @@ class RedisPubSubCommand extends Command
         $redisClient = new Client($redisConfig);
 
         // ReactPHP Event-Loop erstellen
-        $loop = Factory::create();
+        $loop = Loop::get();
 
         // Publisher und Subscriber erstellen
-        $publisher = new Publisher($redisClient);
-        $subscriber = new Subscriber($redisClient);
+        $subscriber = new Subscriber($redisConfig);
 
         // Subscriber starten, um Nachrichten zu empfangen
-        $subscriber->subscribe($loop, 'news'); // Kanalname als string übergeben
+        $subscriber->addChannel(new CountDownChannel());
+        $subscriber->addChannel(new SystemChannel());
 
-        // Publisher sendet Nachrichten an den 'news'-Channel
-        $loop->addTimer(1, function() use ($publisher) {
-            $publisher->publish('news', 'First message');
-        });
-
-        $loop->addTimer(2, function() use ($publisher) {
-            $publisher->publish('news', 'Second message');
-        });
-
-        $loop->addTimer(3, function() use ($publisher) {
-            $publisher->publish('news', 'Third message');
-        });
+        $subscriber->run($loop);
 
         // Event-Loop läuft für immer und wartet auf Nachrichten
         $output->writeln('Pub/Sub system is running...');
