@@ -2,8 +2,8 @@
 
 namespace App\PubSub\Channels;
 
+use App\Loop\LoopInterface;
 use Predis\Client;
-use React\EventLoop\LoopInterface;
 use stdClass;
 
 abstract class BaseChannel implements Channel
@@ -12,6 +12,7 @@ abstract class BaseChannel implements Channel
     private string $name;
     private LoopInterface $loop;
     private Client $client;
+    protected string $consumer;
 
     public function __construct()
     {
@@ -21,6 +22,11 @@ abstract class BaseChannel implements Channel
     public static function getName(): string
     {
         return static::class;
+    }
+
+    public function processInitOutput(): void
+    {
+        $this->echo("Channel '{$this->getName()}' with consumer '{$this->consumer}' process the Message");
     }
 
     public function setLoop(LoopInterface $loop): void {
@@ -91,6 +97,11 @@ abstract class BaseChannel implements Channel
         }
 
         $this->processMessage($message);
+    }
+
+    public function setConsumer(mixed $consumerId)
+    {
+        $this->consumer = $consumerId;
     }
 
     /**

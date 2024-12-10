@@ -15,7 +15,7 @@ class CountDownChannel extends BaseChannel implements Channel
 
     protected function processMessage(stdClass $message): void
     {
-        $this->echo("Channel '{$this->getName()}' process the Message");
+        $this->processInitOutput();
         if(!empty($message->countDown)) {
             $array = range(1, $message->countDown);
             foreach ($array as $index) {
@@ -29,4 +29,5 @@ class CountDownChannel extends BaseChannel implements Channel
             }
         }
     }
+
 }

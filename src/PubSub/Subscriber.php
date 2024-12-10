@@ -5,26 +5,26 @@ namespace App\PubSub;
 use App\PubSub\Channels\BaseChannel;
 use App\PubSub\Channels\Channel;
 use Predis\Client;
-use React\EventLoop\Loop;
-use React\EventLoop\LoopInterface;
+use \App\Loop\LoopInterface;
 
 class Subscriber
 {
     private array $redisParameter = [];
     private array $channels = [];
     private bool $isRunning = true;
+    private mixed $consumerId;
 
-    public function __construct(array $redisConfig)
+    public function __construct(array $redisConfig, $consumerId)
     {
         $this->redisParameter = $redisConfig;
+        $this->consumerId = $consumerId;
     }
 
-    public function addChannel(Channel $channel): void
+    public function addChannel(LoopInterface $loop, Channel $channel): void
     {
-        // ReactPHP Event-Loop erstellen
-        $loop = Loop::get();
         $channel->setLoop($loop);
         $channel->setRedisConfig($this->redisParameter);
+        $channel->setConsumer($this->consumerId);
         $this->channels[$channel->getName()] = $channel;
     }
 

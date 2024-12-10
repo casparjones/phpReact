@@ -15,7 +15,7 @@ class SystemChannel extends BaseChannel implements Channel
 
     protected function processMessage(stdClass $message): void
     {
-        $this->echo("Channel '{$this->getName()}' process the Message");
+        $this->processInitOutput();
         $this->echo("receive message: " . json_encode($message));
     }
 }
