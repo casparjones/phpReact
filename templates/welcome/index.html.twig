@@ -1,5 +1,95 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Product List</h1>
+    <div id="app" class="container mt-5">
+        <h1>Task List</h1>
+        <div class="mb-3">
+            <button class="btn btn-primary me-2" @click="startTaskCountdown">Start Task Countdown</button>
+            <button class="btn btn-secondary" @click="startTaskSystemMessage">Start Task System Message</button>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% verbatim %}
+                <tr v-for="(task, index) in tasks" :key="index">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ task }}</td>
+                </tr>
+                {% endverbatim %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block js_head %}
+    <!-- Bootstrap CSS -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            integrity="sha384-0evHe/X+R7Yk9UknI1ztbK3sH8k2bB11KCRN9HH0dxjZUx6vDSExt50+AMyt4RXF"
+            crossorigin="anonymous"
+    >
+{% endblock %}
+
+{% block js_body %}
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+0i0I5Ug1zYy1zN1Tf6WDeh7Twt/6"
+            crossorigin="anonymous"
+    ></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    tasks: {{ tasks|json_encode|raw }},
+                    intervalId: null
+                },
+                methods: {
+                    // Abfrage der Task-Daten von der Route /tasks/get
+                    fetchTasks() {
+                        fetch('/tasks')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success && Array.isArray(data.tasks)) {
+                                    this.tasks = data.tasks;
+                                }
+                            })
+                            .catch(error => console.error('Error fetching tasks:', error))
+                            .finally(() => {
+                                // Ruft fetchTasks nach 1 Sekunde erneut auf
+                                setTimeout(this.fetchTasks, 1000);
+                            });
+                    },
+                    // Startet den periodischen Task-Countdown
+                    startTaskCountdown() {
+                        fetch('/task/countdown');
+                    },
+                    // Dummy-Handler für Task System Message
+                    startTaskSystemMessage() {
+                        fetch('/task/system');
+                    }
+                },
+                beforeDestroy() {
+                    // Stellt sicher, dass der Intervall gestoppt wird
+                    if (this.intervalId) {
+                        clearInterval(this.intervalId);
+                        this.intervalId = null;
+                    }
+                },
+                mounted() {
+                    setTimeout(this.fetchTasks, 1000);
+                }
+            });
+        });
+    </script>
 {% endblock %}

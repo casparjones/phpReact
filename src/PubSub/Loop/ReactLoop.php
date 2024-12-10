@@ -2,7 +2,6 @@
 
 namespace App\PubSub\Loop;
 
-use App\Loop\LoopInterface;
 use React\EventLoop\Loop;
 
 class ReactLoop implements LoopInterface

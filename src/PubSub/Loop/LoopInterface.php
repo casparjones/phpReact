@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Loop;
+namespace App\PubSub\Loop;
 
 interface LoopInterface
 {

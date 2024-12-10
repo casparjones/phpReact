@@ -5,20 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd917d47-c8a3-4c83-a63e-9e560c88abe4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Command/SwoolePubSubCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PubSub/Loop/LoopInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PubSub/Loop/ReactLoop.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PubSub/Loop/SwooleLoop.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/RedisPubSubCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/ReactPubSubCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/welcomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/welcomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/welcomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/tasksController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PubSub/Channels/BaseChannel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Channels/BaseChannel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PubSub/Channels/Channel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Channels/Channel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PubSub/Channels/CountDownChannel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Channels/CountDownChannel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PubSub/Channels/SystemChannel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Channels/SystemChannel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PubSub/Publisher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Publisher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PubSub/Loop/LoopInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Loop/LoopInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PubSub/Loop/ReactLoop.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Loop/ReactLoop.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PubSub/Loop/SwooleLoop.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Loop/SwooleLoop.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PubSub/Subscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubSub/Subscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/welcome/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/welcome/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,21 +92,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/frank/www/www.phpreact&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/frank/www/www.phpreact",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "php.override.implement.member.chooser.php.doc": "NONE",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -129,7 +125,7 @@
       <updated>1733743408107</updated>
       <workItem from="1733743409166" duration="3076000" />
       <workItem from="1733746490570" duration="14135000" />
-      <workItem from="1733829894043" duration="4775000" />
+      <workItem from="1733829894043" duration="8696000" />
     </task>
     <servers />
   </component>

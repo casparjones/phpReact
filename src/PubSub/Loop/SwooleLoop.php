@@ -2,8 +2,6 @@
 
 namespace App\PubSub\Loop;
 
-use App\Loop\LoopInterface;
-
 class SwooleLoop implements LoopInterface
 {
     /**

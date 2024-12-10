@@ -4,8 +4,8 @@ namespace App\PubSub;
 
 use App\PubSub\Channels\BaseChannel;
 use App\PubSub\Channels\Channel;
+use App\PubSub\Loop\LoopInterface;
 use Predis\Client;
-use \App\Loop\LoopInterface;
 
 class Subscriber
 {
@@ -19,6 +19,24 @@ class Subscriber
         $this->redisParameter = $redisConfig;
         $this->consumerId = $consumerId;
     }
+
+    public static function getTasks(array $consumerNames): array
+    {
+        $tasks = [];
+        foreach ($consumerNames as $consumerName) {
+            $tasks = array_merge($tasks, self::getConsumerTasks($consumerName));
+        }
+        return $tasks;
+    }
+
+    public static function getConsumerTasks(string $consumerName): array
+    {
+        $redisConfigJson = getenv('REDIS_SETTING');
+        $redisConfig = json_decode($redisConfigJson, true);
+        $redisClient = new Client($redisConfig);
+        return $redisClient->lrange($consumerName, 0, -1);
+    }
+
 
     public function addChannel(LoopInterface $loop, Channel $channel): void
     {

@@ -2,7 +2,7 @@
 
 namespace App\PubSub\Channels;
 
-use App\Loop\LoopInterface;
+use App\PubSub\Loop\LoopInterface;
 use Predis\Client;
 use stdClass;
 
